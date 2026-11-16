@@ -1,0 +1,400 @@
+/*
+ * Copyright (c) 2026 IANEL Technologies. All rights reserved.
+ * Designed and developed by IANEL Technologies.
+ */
+/* Global tokens and shared building blocks.
+   Palette comes from the Amsidel logo: charcoal + brushed gold on white. The Doors & Windows website narrows it
+   to plain gray, white and black with gold for text (see app-store-shell below). */
+:root {
+  --bg: #ffffff;
+  --ink: #1e1e21;
+  --muted: #66625c;
+  --line: #e8e5e0;
+  --pine: #2a2a2e;
+  --dark: #161618;
+  --brass: #b08a4e;
+  --brass-dark: #8f6d38;
+  --gold-hi: #d8b676;
+  --soft: #f8f6f2;
+  --display: 'Marcellus', 'Times New Roman', serif;
+  --body: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --radius: 6px;
+  --shadow: 0 14px 34px rgba(30, 30, 33, 0.1);
+  --header-h: 84px;
+  color-scheme: light;
+}
+
+/* Doors & Windows: neutral gray, white and black; gold only as text and thin lines (no cream or beige).
+   --brass is the gold for text on white (deep enough to read), --gold-hi the gold for text on black. */
+app-store-shell {
+  --ink: #111113;
+  --muted: #5d5d64;
+  --line: #e4e4e7;
+  --pine: #1c1c1f;
+  --dark: #0c0c0d;
+  --soft: #f4f4f5;
+  --brass: #a07a38;
+  --brass-dark: #7d5d26;
+  --gold-hi: #d9b56f;
+  --shadow: 0 14px 34px rgba(17, 17, 19, 0.1);
+  /* light gray surfaces in place of black: buttons, top bar, footer, badges, the chat; deep gold text on them */
+  --chip: #ececef;
+  --chip-hover: #e0e0e4;
+  --chip-line: #d4d4d9;
+  --chip-gold: #7a5a22;
+}
+
+/* Buttons there: light gray with deep gold text */
+app-store-shell {
+  .btn--gold,
+  .btn--dark {
+    background: var(--chip);
+    color: var(--chip-gold);
+    border-color: var(--chip-line);
+
+    &:hover {
+      background: var(--chip-hover);
+      border-color: #c4c4ca;
+      color: #5e4417;
+    }
+  }
+
+  .btn--outline {
+    border-color: var(--chip-line);
+    color: var(--ink);
+    background: #fff;
+
+    &:hover {
+      background: var(--chip);
+      color: var(--chip-gold);
+      border-color: var(--chip-line);
+    }
+  }
+
+  .btn--ghost-light:hover {
+    border-color: var(--gold-hi);
+    color: var(--gold-hi);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 12px);
+  /* iPhone Safari enlarges text in some blocks by itself (e.g. after turning the phone), which pushes boxes out of line */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* iPhone/iPad Safari zooms the whole page into any field with text under 16px and does not zoom back out, so the
+   layout looks broken after picking a date or a leave type. Keep every typing field at 16px or more there. */
+@supports (-webkit-touch-callout: none) {
+  input,
+  select,
+  textarea,
+  .p-inputtext,
+  .p-select-label,
+  .p-datepicker-input {
+    font-size: max(16px, 1em) !important;
+  }
+}
+
+/* phones held sideways: keep content clear of the notch */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: clip;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--display);
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0;
+  text-wrap: balance;
+}
+
+h2 {
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+}
+
+.container {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+.section {
+  padding-block: 88px;
+}
+
+.section--soft {
+  background: var(--soft);
+}
+
+/* follows a section on the same background, so skip the doubled gap */
+.section--tight-top {
+  padding-top: 0;
+}
+
+.kicker {
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--brass);
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.section-head {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 48px;
+
+  p.lede {
+    color: var(--muted);
+    margin: 14px 0 0;
+  }
+}
+
+.title-rule {
+  display: block;
+  width: 64px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold-hi), var(--brass));
+  margin: 16px auto 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 12px 26px;
+  border-radius: 40px;
+  border: 1px solid transparent;
+  font: 600 0.82rem/1 var(--body);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.btn--gold {
+  background: var(--brass);
+  color: #fff;
+
+  &:hover {
+    background: var(--brass-dark);
+  }
+}
+
+.btn--dark {
+  background: var(--pine);
+  color: #fff;
+
+  &:hover {
+    background: var(--ink);
+  }
+}
+
+.btn--outline {
+  border-color: var(--line);
+  color: var(--ink);
+  background: var(--bg);
+
+  &:hover {
+    border-color: var(--brass);
+  }
+}
+
+.btn--ghost-light {
+  border-color: rgba(255, 255, 255, 0.55);
+  color: #fff;
+
+  &:hover {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Page banner used at the top of inner pages */
+.page-banner {
+  position: relative;
+  min-height: 320px;
+  display: grid;
+  align-items: end;
+  color: #fff;
+  background: var(--pine) center / cover no-repeat;
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(22, 22, 24, 0.25), rgba(22, 22, 24, 0.78));
+  }
+
+  .container {
+    padding-block: 56px 44px;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+  }
+
+  p {
+    margin: 10px 0 0;
+    max-width: 60ch;
+    color: #e4e4e7;
+  }
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-hi);
+
+  li + li::before {
+    content: '/';
+    margin-right: 8px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  a {
+    text-decoration: none;
+    color: #fff;
+
+    &:hover {
+      color: var(--gold-hi);
+    }
+  }
+}
+
+/* Form controls */
+.field {
+  display: grid;
+  gap: 6px;
+
+  label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--pine);
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    font: inherit;
+    color: var(--ink);
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: var(--brass);
+    }
+  }
+
+  textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .error {
+    font-size: 0.78rem;
+    color: #b3261e;
+  }
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding-block: 64px;
+  }
+
+  :root {
+    --header-h: 70px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

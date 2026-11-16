@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "amsidel-group-web",
+  "compatibility_date": "2026-10-06",
+  // a static site only: Cloudflare serves the built Angular app (no Worker code, no backend to keep awake)
+  "observability": {
+    "enabled": true
+  },
+  // dist/ is not in git, so build the Angular app before every `wrangler deploy` (Cloudflare's deploy command)
+  "build": {
+    "command": "npm run build"
+  },
+  "assets": {
+    "directory": "./dist/amsidel-group-web/browser",
+    "not_found_handling": "single-page-application"
+  }
+}

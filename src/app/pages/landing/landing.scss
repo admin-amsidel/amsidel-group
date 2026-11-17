@@ -160,7 +160,7 @@ h1 { margin: 0; line-height: 0; }
   box-shadow: 0 10px 24px rgba(42,42,46,.14);
   transition: transform .25s ease, box-shadow .25s ease;
 }
-.planet .body svg { width: 56%; height: 56%; }
+.planet .body img { width: 72%; height: auto; max-width: none; }
 .planet .name {
   font-size: clamp(.68rem, 2.2cqi, .86rem); font-weight: 600; line-height: 1.25; text-align: center;
   background: var(--bg); padding: 3px 8px; border-radius: 4px; max-width: 120px;
